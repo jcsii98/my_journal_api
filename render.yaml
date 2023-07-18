@@ -1,21 +1,18 @@
 databases:
   - name: my_journal_api
     databaseName: my_journal_api
-    ipAllowList: []
+    user: my_journal_api
+
 services:
   - type: web
     name: my_journal_api
     runtime: ruby
-    env: ruby
     buildCommand: "./bin/render-build.sh"
-    startCommand: "bundle exec rails s"
+    startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
-      - key: RAILS_MASTER_KEY
-        value: c537d089ab0ab0cb33e6cbb8add612fb
       - key: DATABASE_URL
-        value: "postgres://jcsii98:Gduw2HOzpdkiONcV5SS8qjFcVoOB7QBb@dpg-cir7ttlgkuvqadpb4ub0-a:5432/my_journal_db_plli"
-  - type: redis
-    name: redis
-    ipAllowList: []
-    plan: free
-    maxmemoryPolicy: noeviction
+        fromDatabase:
+          name: mysite
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
