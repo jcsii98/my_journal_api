@@ -1,13 +1,16 @@
 databases:
-  - name: postgres
+  - name: my_journal_api
+    databaseName: my_journal_api
+    user: my_journal_api
     ipAllowList: []
 
 services:
   - type: web
-    name: rails
+    name: my_journal_api
+    runtime: ruby
     env: ruby
     buildCommand: "./bin/render-build.sh"
-    startCommand: bundle exec rails s
+    startCommand: "bundle exec rails s"
     envVars:
       - key: RAILS_MASTER_KEY
         sync: false
